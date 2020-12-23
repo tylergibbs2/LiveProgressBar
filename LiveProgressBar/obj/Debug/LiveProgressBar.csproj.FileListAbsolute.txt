@@ -1,0 +1,6 @@
+C:\Users\gibbs\Documents\GitHub\LiveProgressBar\LiveProgressBar\LiveProgressBar\bin\Debug\LiveProgressBar.dll
+C:\Users\gibbs\Documents\GitHub\LiveProgressBar\LiveProgressBar\LiveProgressBar\bin\Debug\LiveProgressBar.pdb
+C:\Users\gibbs\Documents\GitHub\LiveProgressBar\LiveProgressBar\LiveProgressBar\obj\Debug\LiveProgressBar.csprojAssemblyReference.cache
+C:\Users\gibbs\Documents\GitHub\LiveProgressBar\LiveProgressBar\LiveProgressBar\obj\Debug\LiveProgressBar.csproj.CoreCompileInputs.cache
+C:\Users\gibbs\Documents\GitHub\LiveProgressBar\LiveProgressBar\LiveProgressBar\obj\Debug\LiveProgressBar.dll
+C:\Users\gibbs\Documents\GitHub\LiveProgressBar\LiveProgressBar\LiveProgressBar\obj\Debug\LiveProgressBar.pdb
