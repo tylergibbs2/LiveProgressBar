@@ -8,6 +8,7 @@ namespace LiveProgressBar
     {
         private ModConfig config;
         private bool menuVisible = true;
+        private SButton? ToggleKey;
         private float lastProgress;
         private ProgressHUD progressHUD;
         public override void Entry(IModHelper helper)
@@ -32,6 +33,15 @@ namespace LiveProgressBar
             this.progressHUD = new ProgressHUD(this.lastProgress);
             this.progressHUD.SetVisible(this.menuVisible);
             Game1.onScreenMenus.Add(this.progressHUD);
+
+            if (!String.IsNullOrEmpty(config.ToggleKey))
+            {
+                try
+                {
+                    this.ToggleKey = (SButton)Enum.Parse(typeof(SButton), config.ToggleKey);
+                }
+                catch (ArgumentException ex) { }
+            }
         }
 
         private void OnUpdateTicked(object sender, EventArgs e)
@@ -41,20 +51,14 @@ namespace LiveProgressBar
                 return;
             }
 
-            if (!String.IsNullOrEmpty(config.ToggleKey))
+            if (this.ToggleKey != null)
             {
-                try
+                SButtonState state = this.Helper.Input.GetState(this.ToggleKey.GetValueOrDefault());
+                if (state == SButtonState.Released)
                 {
-                    SButton key = (SButton)Enum.Parse(typeof(SButton), config.ToggleKey);
-                    SButtonState state = this.Helper.Input.GetState(key);
-                    if (state == SButtonState.Released)
-                    {
-                        this.menuVisible = !this.menuVisible;
-                        this.progressHUD.SetVisible(this.menuVisible);
-                    }
+                    this.menuVisible = !this.menuVisible;
+                    this.progressHUD.SetVisible(this.menuVisible);
                 }
-                catch (ArgumentNullException ex) { }
-                catch (ArgumentException ex) { }
             }
 
             float latestProgress = Utility.percentGameComplete();
