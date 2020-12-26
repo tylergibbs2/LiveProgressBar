@@ -21,3 +21,5 @@ overall progress in the game as it happens, along with providing some more advan
 
 
 This mod was created for [TheHaboo on Twitch](https://www.twitch.tv/thehaboo) for his Stardew Valley speedruns.
+
+This mod is also on [Nexus](https://www.nexusmods.com/stardewvalley/mods/7330).
