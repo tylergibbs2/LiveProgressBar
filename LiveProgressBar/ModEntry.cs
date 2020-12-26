@@ -1,15 +1,13 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
-using StardewModdingAPI.Events;
-using StardewModdingAPI.Utilities;
 using StardewValley;
 
 namespace LiveProgressBar
 {
     public class ModEntry : Mod
     {
+        private ModConfig config;
+        private bool menuVisible = true;
         private float lastProgress;
         private ProgressHUD progressHUD;
         public override void Entry(IModHelper helper)
@@ -29,8 +27,10 @@ namespace LiveProgressBar
 
         private void OnSaveLoaded(object sender, EventArgs e)
         {
+            this.config = this.Helper.ReadConfig<ModConfig>();
             this.lastProgress = 0f;
             this.progressHUD = new ProgressHUD(this.lastProgress);
+            this.progressHUD.SetVisible(this.menuVisible);
             Game1.onScreenMenus.Add(this.progressHUD);
         }
 
@@ -39,6 +39,22 @@ namespace LiveProgressBar
             if (!Context.IsWorldReady)
             {
                 return;
+            }
+
+            if (!String.IsNullOrEmpty(config.ToggleKey))
+            {
+                try
+                {
+                    SButton key = (SButton)Enum.Parse(typeof(SButton), config.ToggleKey);
+                    SButtonState state = this.Helper.Input.GetState(key);
+                    if (state == SButtonState.Released)
+                    {
+                        this.menuVisible = !this.menuVisible;
+                        this.progressHUD.SetVisible(this.menuVisible);
+                    }
+                }
+                catch (ArgumentNullException ex) { }
+                catch (ArgumentException ex) { }
             }
 
             float latestProgress = Utility.percentGameComplete();

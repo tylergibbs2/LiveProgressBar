@@ -11,6 +11,7 @@ namespace LiveProgressBar
     {
         private float progress;
         private bool showExtra = false;
+        private bool isVisible = true;
 
         private int extraWidth;
         private int extraHeight;
@@ -45,6 +46,11 @@ namespace LiveProgressBar
         public void SetProgress(float progress)
         {
             this.progress = progress;
+        }
+
+        public void SetVisible(bool state)
+        {
+            this.isVisible = state;
         }
 
         public override void receiveLeftClick(int x, int y, bool playSound = true)
@@ -89,6 +95,10 @@ namespace LiveProgressBar
 
         public override void draw(SpriteBatch b)
         {
+            if (!this.isVisible)
+            {
+                return;
+            }
             // removes the leading space
             System.Globalization.CultureInfo newCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
             newCulture.NumberFormat.PercentPositivePattern = 1;  // Avoid putting a space between a number and its percentage
