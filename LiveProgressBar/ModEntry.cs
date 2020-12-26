@@ -17,11 +17,11 @@ namespace LiveProgressBar
             helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
             helper.Events.GameLoop.SaveLoaded += this.OnSaveLoaded;
 
-            helper.ConsoleCommands.Add("progress", "Sets a fake progress percentage for testing.", this.SetProgress);
+            helper.ConsoleCommands.Add("progress", "Sets a fake progress percentage for testing.", this.SetProgressCmd);
         }
 
 
-        private void SetProgress(string command, string[] args)
+        private void SetProgressCmd(string command, string[] args)
         {
             this.progressHUD.SetProgress(float.Parse(args[0]));
         }
@@ -29,7 +29,8 @@ namespace LiveProgressBar
 
         private void OnSaveLoaded(object sender, EventArgs e)
         {
-            this.progressHUD = new ProgressHUD(0f);
+            this.lastProgress = 0f;
+            this.progressHUD = new ProgressHUD(this.lastProgress);
             Game1.onScreenMenus.Add(this.progressHUD);
         }
 
