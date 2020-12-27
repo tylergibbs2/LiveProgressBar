@@ -23,8 +23,8 @@ namespace LiveProgressBar
             this.width = 200;
             this.height = 175;
 
-            this.extraWidth = 550;
-            this.extraHeight = 585;
+            this.extraWidth = 500;
+            this.extraHeight = 600;
 
             this.progress = progress;
             this.CalcPositions();
@@ -63,32 +63,36 @@ namespace LiveProgressBar
             List<string> strings = new List<string>();
 
             float ItemsShippedPrct = Math.Min(0f + Utility.GetFarmCompletion((Farmer farmer) => Utility.getFarmerItemsShippedPercent(farmer)).Value, 1f);
-            float ObelisksPrct = Math.Min(Utility.numObelisksOnFarm() / 4f, 1f);
-            float GoldClockPrct = Math.Min((Game1.getFarm().isBuildingConstructed("Gold Clock") ? 1f : 0f), 1f);
+            int ObelisksBuilt = Math.Min(Utility.numObelisksOnFarm(), 4);
             float SlayerQuestsPrct = Math.Min(this.GetMonsterQuestPercent(), 1f);
             float MaxFriendshipPrct = Math.Min(Utility.GetFarmCompletion((Farmer farmer) => Utility.getMaxedFriendshipPercent(farmer)).Value, 1f);
-            float LevelPrct = Math.Min(Utility.GetFarmCompletion((Farmer farmer) => Math.Min(farmer.Level, 25f) / 25f).Value, 1f);
-            float StardropsPrct = Math.Min(this.GetStardropPercent(), 1f);
+            int Level = (int)Math.Min(Utility.GetFarmCompletion((Farmer farmer) => farmer.Level).Value, 25);
+            int StardropsFound = Math.Min(this.GetStardropsFound(), 7);
             float CookedRecipesPrct = Math.Min(Utility.GetFarmCompletion((Farmer farmer) => Utility.getCookedRecipesPercent(farmer)).Value, 1f);
             float CraftedRecipesPrct = Math.Min(Utility.GetFarmCompletion((Farmer farmer) => Utility.getCraftedRecipesPercent(farmer)).Value, 1f);
             float FishCaughtPrct = Math.Min(Utility.GetFarmCompletion((Farmer farmer) => Utility.getFishCaughtPercent(farmer)).Value, 1f);
+            int walnutsFound = Math.Min((int)Game1.netWorldState.Value.GoldenWalnutsFound, 130);
 
-            float totalNuts = 130f;
-            float walnutsFound = Math.Min((int)Game1.netWorldState.Value.GoldenWalnutsFound, totalNuts);
+            string GoldClock;
+            if (Game1.getFarm().isBuildingConstructed("Gold Clock"))
+            {
+                GoldClock = "Yes";
+            } else
+            {
+                GoldClock = "No";
+            }
 
-            float WalnutsPrct = walnutsFound / totalNuts;
-
-            strings.Add(string.Format("Items Shipped: {0:P2}", ItemsShippedPrct));
-            strings.Add(string.Format("Obelisks: {0:P2}", ObelisksPrct));
-            strings.Add(string.Format("Gold Clock: {0:P2}", GoldClockPrct));
-            strings.Add(string.Format("Slayer Quests: {0:P2}", SlayerQuestsPrct));
-            strings.Add(string.Format("Max Friendships: {0:P2}", MaxFriendshipPrct));
-            strings.Add(string.Format("Farmer Level: {0:P2}", LevelPrct));
-            strings.Add(string.Format("Stardrops Found: {0:P2}", StardropsPrct));
-            strings.Add(string.Format("Cooked Recipes: {0:P2}", CookedRecipesPrct));
-            strings.Add(string.Format("Crafted Recipes: {0:P2}", CraftedRecipesPrct));
-            strings.Add(string.Format("Fish Caught: {0:P2}", FishCaughtPrct));
-            strings.Add(string.Format("Golden Walnuts: {0:P2}", WalnutsPrct));
+            strings.Add(string.Format("Items Shipped: {0:P0}", ItemsShippedPrct));
+            strings.Add(string.Format("Obelisks Built: {0}/4", ObelisksBuilt));
+            strings.Add(string.Format("Gold Clock Built: {0}", GoldClock));
+            strings.Add(string.Format("Slayer Quests: {0:P0}", SlayerQuestsPrct));
+            strings.Add(string.Format("Max Friendships: {0:P0}", MaxFriendshipPrct));
+            strings.Add(string.Format("Farmer Level: {0}/25", Level));
+            strings.Add(string.Format("Stardrops Found: {0}/7", StardropsFound));
+            strings.Add(string.Format("Cooked Recipes: {0:P0}", CookedRecipesPrct));
+            strings.Add(string.Format("Crafted Recipes: {0:P0}", CraftedRecipesPrct));
+            strings.Add(string.Format("Fish Caught: {0:P0}", FishCaughtPrct));
+            strings.Add(string.Format("Golden Walnuts: {0}/130", walnutsFound));
 
             return strings;
         }
@@ -127,50 +131,49 @@ namespace LiveProgressBar
                 foreach (string stat in this.GetExtraStrings())
                 {
                     Utility.drawTextWithShadow(b, stat, Game1.dialogueFont, textPos, Game1.textColor);
-                    textPos.Y += 40;
+                    textPos.Y += 42;
                 }
             }
 
             drawMouse(b);
         }
 
-        private float GetStardropPercent()
+        private int GetStardropsFound()
         {
             Farmer who = Game1.player;
 
-            float total = 7f;
-            float found = 0f;
+            int found = 0;
 
             if (who.hasOrWillReceiveMail("CF_Fair"))
             {
-                found += 1f;
+                found += 1;
             }
             if (who.hasOrWillReceiveMail("CF_Fish"))
             {
-                found += 1f;
+                found += 1;
             }
             if (who.hasOrWillReceiveMail("CF_Mines"))
             {
-                found += 1f;
+                found += 1;
             }
             if (who.hasOrWillReceiveMail("CF_Sewer"))
             {
-                found += 1f;
+                found += 1;
             }
             if (who.hasOrWillReceiveMail("museumComplete"))
             {
-                found += 1f;
+                found += 1;
             }
             if (who.hasOrWillReceiveMail("CF_Spouse"))
             {
-                found += 1f;
+                found += 1;
             }
             if (who.hasOrWillReceiveMail("CF_Statue"))
             {
-                found += 1f;
+                found += 1;
             }
 
-            return found / total;
+            return found;
         }
 
         private float GetMonsterQuestPercent()
