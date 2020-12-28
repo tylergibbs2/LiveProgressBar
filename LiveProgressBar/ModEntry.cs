@@ -47,9 +47,7 @@ namespace LiveProgressBar
         private void OnUpdateTicked(object sender, EventArgs e)
         {
             if (!Context.IsWorldReady)
-            {
                 return;
-            }
 
             if (this.ToggleKey != null)
             {
@@ -61,11 +59,12 @@ namespace LiveProgressBar
                 }
             }
 
+            if (!this.menuVisible)
+                return;
+
             float latestProgress = Utility.percentGameComplete();
             if (latestProgress == this.lastProgress)
-            {
                 return;
-            }
 
             String percentString = String.Format("Progress Changed: {0:P2}.", latestProgress);
 

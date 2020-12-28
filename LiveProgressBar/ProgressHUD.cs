@@ -75,12 +75,9 @@ namespace LiveProgressBar
 
             string GoldClock;
             if (Game1.getFarm().isBuildingConstructed("Gold Clock"))
-            {
                 GoldClock = "Yes";
-            } else
-            {
+            else
                 GoldClock = "No";
-            }
 
             strings.Add(string.Format("Items Shipped: {0:P0}", ItemsShippedPrct));
             strings.Add(string.Format("Obelisks Built: {0}/4", ObelisksBuilt));
@@ -100,9 +97,8 @@ namespace LiveProgressBar
         public override void draw(SpriteBatch b)
         {
             if (!this.isVisible)
-            {
                 return;
-            }
+
             // removes the leading space
             System.Globalization.CultureInfo newCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
             newCulture.NumberFormat.PercentPositivePattern = 1;  // Avoid putting a space between a number and its percentage
@@ -110,12 +106,9 @@ namespace LiveProgressBar
 
             String percentString;
             if (this.progress >= 1f)
-            {
                 percentString = "100%";
-            } else
-            {
+            else
                 percentString = string.Format("{0:P2}", this.progress);
-            }
     
             Vector2 textPos = new Vector2(this.xPositionOnScreen + (this.width / 3) - 25, this.yPositionOnScreen + (this.height / 2) + 10);
 
@@ -145,33 +138,19 @@ namespace LiveProgressBar
             int found = 0;
 
             if (who.hasOrWillReceiveMail("CF_Fair"))
-            {
                 found += 1;
-            }
             if (who.hasOrWillReceiveMail("CF_Fish"))
-            {
                 found += 1;
-            }
             if (who.hasOrWillReceiveMail("CF_Mines"))
-            {
                 found += 1;
-            }
             if (who.hasOrWillReceiveMail("CF_Sewer"))
-            {
                 found += 1;
-            }
             if (who.hasOrWillReceiveMail("museumComplete"))
-            {
                 found += 1;
-            }
             if (who.hasOrWillReceiveMail("CF_Spouse"))
-            {
                 found += 1;
-            }
             if (who.hasOrWillReceiveMail("CF_Statue"))
-            {
                 found += 1;
-            }
 
             return found;
         }
@@ -197,53 +176,30 @@ namespace LiveProgressBar
             float completed = total;
 
             if (num < 1000)
-            {
                 completed -= 1f;
-            }
             if (shadowsKilled < 150)
-            {
                 completed -= 1f;
-            }
             if (skeletonsKilled < 50)
-            {
                 completed -= 1f;
-            }
             if (caveInsectsKilled < 125)
-            {
                 completed -= 1f;
-            }
             if (batsKilled < 200)
-            {
                 completed -= 1f;
-            }
             if (duggyKilled < 30)
-            {
                 completed -= 1f;
-            }
             if (dustSpiritKilled < 500)
-            {
                 completed -= 1f;
-            }
             if (crabsKilled < 60)
-            {
                 completed -= 1f;
-            }
             if (mummiesKilled < 100)
-            {
                 completed -= 1f;
-            }
             if (dinosKilled < 50)
-            {
                 completed -= 1f;
-            }
             if (serpentsKilled < 250)
-            {
                 completed -= 1f;
-            }
             if (flameSpiritsKilled < 150)
-            {
                 completed -= 1f;
-            }
+
             return completed / total;
         }
     }
