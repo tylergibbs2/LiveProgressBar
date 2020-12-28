@@ -7,10 +7,13 @@ namespace LiveProgressBar
     public class ModEntry : Mod
     {
         private ModConfig config;
-        private bool menuVisible = true;
         private SButton? ToggleKey;
+
+        private bool menuVisible = true;
         private float lastProgress;
+
         private ProgressHUD progressHUD;
+
         public override void Entry(IModHelper helper)
         {
             helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;

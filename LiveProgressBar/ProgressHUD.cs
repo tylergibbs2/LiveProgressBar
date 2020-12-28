@@ -10,6 +10,7 @@ namespace LiveProgressBar
     class ProgressHUD : IClickableMenu
     {
         private float progress;
+
         private bool showExtra = false;
         private bool isVisible = true;
 
